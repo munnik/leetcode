@@ -67,7 +67,7 @@ func TestUniquePathsWithObstacles(t *testing.T) {
 			func(t *testing.T) {
 				got := uniquePathsWithObstacles(testCase.input)
 				if got != testCase.want {
-					t.Fatalf("Got %v; want %v", got, testCase.want)
+					t.Fatalf("Got %v; want %v; with input %v", got, testCase.want, testCase.input)
 				} else {
 					t.Logf("Success!")
 				}
