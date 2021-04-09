@@ -1,29 +1,26 @@
 package main
 
-import "container/list"
-
 func numOfMinutes(n int, headID int, manager []int, informTime []int) int {
-	timeNeededToInform := make(map[int]int, n)
-	timeNeededToInform[headID] = 0
-	result := 0
+	employeesOfManager := make(map[int][]int, n)
+	for e, m := range manager {
+		if _, ok := employeesOfManager[m]; !ok {
+			employeesOfManager[m] = []int{e}
+		} else {
+			employeesOfManager[m] = append(employeesOfManager[m], e)
+		}
+	}
 
-	whoNeedToInform := list.New()
-	whoNeedToInform.PushBack(headID)
-
-	for len(timeNeededToInform) < n {
-		e := whoNeedToInform.Front()
-		if headID, ok := e.Value.(int); ok {
-			for i, m := range manager {
-				if headID == m {
-					whoNeedToInform.PushBack(i)
-					timeNeededToInform[i] = timeNeededToInform[headID] + informTime[headID]
-					if timeNeededToInform[i] > result {
-						result = timeNeededToInform[i]
-					}
-				}
+	var dfs func(m int) int
+	dfs = func(m int) int {
+		result := 0
+		for _, e := range employeesOfManager[m] {
+			tmp := dfs(e)
+			if tmp > result {
+				result = tmp
 			}
 		}
-		whoNeedToInform.Remove(e)
+		return result + informTime[m]
 	}
-	return result
+
+	return dfs(headID)
 }
