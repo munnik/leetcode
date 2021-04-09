@@ -21,11 +21,20 @@ func CreateLinkedList(numbers []int) *ListNode {
 	return result
 }
 
-func (l ListNode) String() string {
-	if l.Next != nil {
-		return fmt.Sprintf("%d > %s", l.Val, l.Next.String())
+func (l *ListNode) String() string {
+	var recursiveString func(l *ListNode, seen map[*ListNode]int) string
+	recursiveString = func(l *ListNode, seen map[*ListNode]int) string {
+		if pos, ok := seen[l]; ok {
+			return fmt.Sprintf("[cycle to position %d]", pos)
+		}
+		if l.Next != nil {
+			seen[l] = len(seen)
+			return fmt.Sprintf("%d > %s", l.Val, recursiveString(l.Next, seen))
+		}
+		return fmt.Sprintf("%d > [nil]", l.Val)
 	}
-	return fmt.Sprintf("%d", l.Val)
+
+	return recursiveString(l, make(map[*ListNode]int))
 }
 
 func (l *ListNode) AddCycle(cycle int) *ListNode {

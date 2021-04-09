@@ -10,10 +10,13 @@ func TestListNodeString(t *testing.T) {
 		input *ListNode
 		want  string
 	}{
-		{&ListNode{Val: 2, Next: &ListNode{Val: 4, Next: &ListNode{Val: 3}}}, "2 > 4 > 3"},
-		{&ListNode{}, "0"},
-		{&ListNode{Val: 0}, "0"},
-		{&ListNode{Val: 8, Next: &ListNode{Val: 9, Next: &ListNode{Val: 9, Next: &ListNode{Val: 9, Next: &ListNode{Val: 0, Next: &ListNode{Val: 0, Next: &ListNode{Val: 0, Next: &ListNode{Val: 1}}}}}}}}, "8 > 9 > 9 > 9 > 0 > 0 > 0 > 1"},
+		{&ListNode{Val: 2, Next: &ListNode{Val: 4, Next: &ListNode{Val: 3}}}, "2 > 4 > 3 > [nil]"},
+		{&ListNode{}, "0 > [nil]"},
+		{&ListNode{Val: 0}, "0 > [nil]"},
+		{&ListNode{Val: 8, Next: &ListNode{Val: 9, Next: &ListNode{Val: 9, Next: &ListNode{Val: 9, Next: &ListNode{Val: 0, Next: &ListNode{Val: 0, Next: &ListNode{Val: 0, Next: &ListNode{Val: 1}}}}}}}}, "8 > 9 > 9 > 9 > 0 > 0 > 0 > 1 > [nil]"},
+		{(&ListNode{Val: 2, Next: &ListNode{Val: 4, Next: &ListNode{Val: 3}}}).AddCycle(-1), "2 > 4 > 3 > [nil]"},
+		{(&ListNode{Val: 2, Next: &ListNode{Val: 4, Next: &ListNode{Val: 3}}}).AddCycle(0), "2 > 4 > 3 > [cycle to position 0]"},
+		{(&ListNode{Val: 2, Next: &ListNode{Val: 4, Next: &ListNode{Val: 3}}}).AddCycle(1), "2 > 4 > 3 > [cycle to position 1]"},
 	}
 
 	for i, testCase := range tests {
@@ -36,9 +39,9 @@ func TestCreateLinkedList(t *testing.T) {
 		input []int
 		want  string
 	}{
-		{[]int{2, 4, 3}, "2 > 4 > 3"},
-		{[]int{0}, "0"},
-		{[]int{8, 9, 9, 9, 0, 0, 0, 1}, "8 > 9 > 9 > 9 > 0 > 0 > 0 > 1"},
+		{[]int{2, 4, 3}, "2 > 4 > 3 > [nil]"},
+		{[]int{0}, "0 > [nil]"},
+		{[]int{8, 9, 9, 9, 0, 0, 0, 1}, "8 > 9 > 9 > 9 > 0 > 0 > 0 > 1 > [nil]"},
 	}
 
 	for i, testCase := range tests {
