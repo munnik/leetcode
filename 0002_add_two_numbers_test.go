@@ -10,9 +10,9 @@ func TestAddTwoNumbers(t *testing.T) {
 		input []*ListNode
 		want  *ListNode
 	}{
-		{[]*ListNode{CreateLinkedList(342), CreateLinkedList(465)}, CreateLinkedList(807)},
-		{[]*ListNode{CreateLinkedList(0), CreateLinkedList(0)}, CreateLinkedList(0)},
-		{[]*ListNode{CreateLinkedList(9999999), CreateLinkedList(9999)}, CreateLinkedList(10009998)},
+		{[]*ListNode{CreateLinkedList([]int{2, 4, 3}), CreateLinkedList([]int{5, 6, 4})}, CreateLinkedList([]int{7, 0, 8})},
+		{[]*ListNode{CreateLinkedList([]int{0}), CreateLinkedList([]int{0})}, CreateLinkedList([]int{0})},
+		{[]*ListNode{CreateLinkedList([]int{9, 9, 9, 9, 9, 9, 9}), CreateLinkedList([]int{9, 9, 9, 9})}, CreateLinkedList([]int{8, 9, 9, 9, 0, 0, 0, 1})},
 	}
 
 	for i, testCase := range tests {

@@ -10,9 +10,9 @@ func TestHasCycle(t *testing.T) {
 		input *ListNode
 		want  bool
 	}{
-		{CreateLinkedList(1111).AddCycle(1), true},
-		{CreateLinkedList(12).AddCycle(0), true},
-		{CreateLinkedList(1).AddCycle(-1), false},
+		{CreateLinkedList([]int{1, 1, 1, 1}).AddCycle(1), true},
+		{CreateLinkedList([]int{1, 2}).AddCycle(0), true},
+		{CreateLinkedList([]int{1}).AddCycle(-1), false},
 		{nil, false},
 	}
 

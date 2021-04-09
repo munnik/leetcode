@@ -10,6 +10,17 @@ type ListNode struct {
 	Next *ListNode
 }
 
+func CreateLinkedList(numbers []int) *ListNode {
+	if len(numbers) == 0 {
+		return nil
+	}
+
+	result := &ListNode{}
+	result.Val = numbers[0]
+	result.Next = CreateLinkedList(numbers[1:])
+	return result
+}
+
 func (l ListNode) String() string {
 	if l.Next != nil {
 		return fmt.Sprintf("%d > %s", l.Val, l.Next.String())
@@ -17,51 +28,30 @@ func (l ListNode) String() string {
 	return fmt.Sprintf("%d", l.Val)
 }
 
-func CreateLinkedList(number int) *ListNode {
-	result := &ListNode{}
-	result.Val = number % 10
-	number /= 10
-	if number > 0 {
-		result.Next = CreateLinkedList(number)
+func (l *ListNode) AddCycle(cycle int) *ListNode {
+	current := l
+	var cycleTo *ListNode
+	i := 0
+	for {
+		if i == cycle {
+			cycleTo = current
+		}
+		if current.Next == nil {
+			if cycleTo != nil {
+				current.Next = cycleTo
+			}
+			break
+		}
+		current = current.Next
+		i++
 	}
-
-	return result
+	return l
 }
 
 type TreeNode struct {
 	Val   int
 	Left  *TreeNode
 	Right *TreeNode
-}
-
-func (t *TreeNode) Equals(other *TreeNode) bool {
-	if t == nil && other == nil {
-		return true
-	}
-	if other == nil || t.Val != other.Val {
-		return false
-	}
-	result := true
-	if t.Left != nil || other.Left != nil {
-		if t.Left == nil && other.Left != nil {
-			result = false
-		} else if t.Left != nil && other.Left == nil {
-			result = false
-		} else {
-			result = result && t.Left.Equals(other.Left)
-		}
-	}
-	if t.Right != nil || other.Right != nil {
-		if t.Right == nil && other.Right != nil {
-			result = false
-		} else if t.Right != nil && other.Right == nil {
-			result = false
-		} else {
-			result = result && t.Right.Equals(other.Right)
-		}
-	}
-
-	return result
 }
 
 // CreateBinaryTree returns the root node of a binary tree created from the input, a negative number in the input represents a nil node
@@ -115,4 +105,34 @@ func CreateBinaryTree(numbers []int) *TreeNode {
 	}
 
 	return root
+}
+
+func (t *TreeNode) Equals(other *TreeNode) bool {
+	if t == nil && other == nil {
+		return true
+	}
+	if other == nil || t.Val != other.Val {
+		return false
+	}
+	result := true
+	if t.Left != nil || other.Left != nil {
+		if t.Left == nil && other.Left != nil {
+			result = false
+		} else if t.Left != nil && other.Left == nil {
+			result = false
+		} else {
+			result = result && t.Left.Equals(other.Left)
+		}
+	}
+	if t.Right != nil || other.Right != nil {
+		if t.Right == nil && other.Right != nil {
+			result = false
+		} else if t.Right != nil && other.Right == nil {
+			result = false
+		} else {
+			result = result && t.Right.Equals(other.Right)
+		}
+	}
+
+	return result
 }

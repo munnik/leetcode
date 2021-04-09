@@ -10,7 +10,7 @@ func TestMergeKLists(t *testing.T) {
 		input []*ListNode
 		want  *ListNode
 	}{
-		{[]*ListNode{CreateLinkedList(541), CreateLinkedList(431), CreateLinkedList(62)}, CreateLinkedList(65443211)},
+		{[]*ListNode{CreateLinkedList([]int{1, 4, 5}), CreateLinkedList([]int{1, 3, 4}), CreateLinkedList([]int{2, 6})}, CreateLinkedList([]int{1, 1, 2, 3, 4, 4, 5, 6})},
 		{make([]*ListNode, 0), nil},
 	}
 

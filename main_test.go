@@ -33,12 +33,12 @@ func TestListNodeString(t *testing.T) {
 
 func TestCreateLinkedList(t *testing.T) {
 	tests := []struct {
-		input int
+		input []int
 		want  string
 	}{
-		{342, "2 > 4 > 3"},
-		{0, "0"},
-		{10009998, "8 > 9 > 9 > 9 > 0 > 0 > 0 > 1"},
+		{[]int{2, 4, 3}, "2 > 4 > 3"},
+		{[]int{0}, "0"},
+		{[]int{8, 9, 9, 9, 0, 0, 0, 1}, "8 > 9 > 9 > 9 > 0 > 0 > 0 > 1"},
 	}
 
 	for i, testCase := range tests {
