@@ -35,7 +35,10 @@ type TreeNode struct {
 }
 
 func (t *TreeNode) Equals(other *TreeNode) bool {
-	if t.Val != other.Val {
+	if t == nil && other == nil {
+		return true
+	}
+	if other == nil || t.Val != other.Val {
 		return false
 	}
 	result := true
