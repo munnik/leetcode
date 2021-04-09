@@ -10,17 +10,26 @@ func numOfMinutes(n int, headID int, manager []int, informTime []int) int {
 		}
 	}
 
-	var dfs func(m int) int
-	dfs = func(m int) int {
+	var dfs func(m int, time chan int)
+	dfs = func(m int, time chan int) {
 		result := 0
-		for _, e := range employeesOfManager[m] {
-			tmp := dfs(e)
+		channels := make([]chan int, len(employeesOfManager[m]))
+		for i, e := range employeesOfManager[m] {
+			channels[i] = make(chan int)
+			go dfs(e, channels[i])
+		}
+		for _, c := range channels {
+			tmp := <-c
 			if tmp > result {
 				result = tmp
 			}
 		}
-		return result + informTime[m]
+
+		time <- result + informTime[m]
 	}
 
-	return dfs(headID)
+	result := make(chan int)
+	go dfs(headID, result)
+
+	return <-result
 }
