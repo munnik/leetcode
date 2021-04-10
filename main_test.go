@@ -48,7 +48,7 @@ func TestCreateLinkedList(t *testing.T) {
 		t.Run(
 			fmt.Sprintf("Test %d", i),
 			func(t *testing.T) {
-				got := CreateLinkedList(testCase.input)
+				got := CreateLinkedList(testCase.input...)
 				if got.String() != testCase.want {
 					t.Fatalf("Got %v; want %v; with input %v", got, testCase.want, testCase.input)
 				} else {

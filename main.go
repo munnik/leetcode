@@ -10,14 +10,14 @@ type ListNode struct {
 	Next *ListNode
 }
 
-func CreateLinkedList(numbers []int) *ListNode {
+func CreateLinkedList(numbers ...int) *ListNode {
 	if len(numbers) == 0 {
 		return nil
 	}
 
 	result := &ListNode{}
 	result.Val = numbers[0]
-	result.Next = CreateLinkedList(numbers[1:])
+	result.Next = CreateLinkedList(numbers[1:]...)
 	return result
 }
 
