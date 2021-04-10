@@ -1,32 +1,43 @@
 package main
 
+import "container/list"
+
 func maxResult(nums []int, k int) int {
-	if len(nums) == 0 {
-		return 0
+	dp := make([]int, len(nums))
+	dp[0] = nums[0]
+
+	queue := list.New()
+	type best struct {
+		Value    int
+		Position int
 	}
-	bestResults := make(map[int]int)
-	bestResults[0] = nums[0]
+	queue.PushBack(best{Value: nums[0], Position: 0})
 
-	const minInt int = -1 << 31
-
-	var recursiveResult func(pos int) int
-	recursiveResult = func(pos int) int {
-		if result, ok := bestResults[pos]; ok {
-			return result
+	for i := 1; i < len(nums); i++ {
+		e := queue.Front()
+		if b, ok := e.Value.(best); ok {
+			dp[i] = nums[i] + b.Value
 		}
-		result := minInt
-		for i := 1; i <= k && pos-i >= 0; i++ {
-			bestResultSoFar := recursiveResult(pos - i)
-			if bestResultSoFar > result {
-				result = bestResultSoFar
+
+		for {
+			if queue.Len() == 0 {
+				break
+			}
+			e = queue.Back()
+			if b, ok := e.Value.(best); ok {
+				if b.Value >= dp[i] {
+					break
+				}
+				queue.Remove(e)
 			}
 		}
-		for i := 0; i < pos-k; i++ {
-			delete(bestResults, i)
+		queue.PushBack(best{Value: dp[i], Position: i})
+
+		e = queue.Front()
+		if b, ok := e.Value.(best); ok && b.Position == i-k {
+			queue.Remove(e)
 		}
-		bestResults[pos] = result + nums[pos]
-		return bestResults[pos]
 	}
 
-	return recursiveResult(len(nums) - 1)
+	return dp[len(dp)-1]
 }
